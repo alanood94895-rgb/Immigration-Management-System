@@ -63,8 +63,6 @@ public class ApplicantService {
         return applicantRepository.save(applicant);
     }
 
-    // 3. Business Logic Method
-    // =========================
     public void flagCriminalRecord(Long applicantId) {
 
         Applicant applicant = applicantRepository.findById(applicantId)
