@@ -1,17 +1,29 @@
 package com.example.tra;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Applicant extends Person {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
+
     private String passportNumber;
     private String nationality;
     private Boolean criminalRecord;
+
+    @OneToMany(mappedBy = "applicant")
+    private List<VisaApplication> visaApplications;
+
+    @OneToMany(mappedBy = "applicant")
+    private List<Interview> interviews;
 }
