@@ -21,7 +21,7 @@ public class ApplicantMapper {
                 applicant.getLastName(),
                 applicant.getPassportNumber(),
                 applicant.getNationality(),
-                applicant.isCriminalRecord()
+                applicant.getCriminalRecord()
         );
     }
 
