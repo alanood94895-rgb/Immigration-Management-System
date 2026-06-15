@@ -36,8 +36,7 @@ public class ApplicantService {
         return applicantRepository.save(applicant);
     }
 
-    // 2. Overloaded method
-    // =========================
+
     public Applicant saveApplicant(String firstName,
                                    String lastName,
                                    String passportNumber,
@@ -64,7 +63,6 @@ public class ApplicantService {
         return applicantRepository.save(applicant);
     }
 
-    // =========================
     // 3. Business Logic Method
     // =========================
     public void flagCriminalRecord(Long applicantId) {
