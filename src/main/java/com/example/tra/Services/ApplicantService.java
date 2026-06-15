@@ -4,14 +4,19 @@ import com.example.tra.Entities.Applicant;
 import com.example.tra.Entities.Interview;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.InterviewRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ApplicantService {
-    private final ApplicantRepository applicantRepository;
-    private final InterviewRepository interviewRepository;
+
+    @Autowired
+     ApplicantRepository applicantRepository;
+
+    @Autowired
+     InterviewRepository interviewRepository;
 
     public ApplicantService(ApplicantRepository applicantRepository,
                             InterviewRepository interviewRepository) {
@@ -71,7 +76,6 @@ public class ApplicantService {
         applicant.setCriminalRecord(true);
         applicantRepository.save(applicant);
 
-        // Cancel all scheduled interviews
         List<Interview> scheduledInterviews =
                 interviewRepository.findByOfficerIdAndInterviewDate(applicantId, "SCHEDULED");
 
