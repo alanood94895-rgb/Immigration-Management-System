@@ -68,7 +68,6 @@ public class ApplicantService {
         Applicant applicant = applicantRepository.findById(applicantId)
                 .orElseThrow(() -> new RuntimeException("Applicant not found"));
 
-        // Set criminal record
         applicant.setCriminalRecord(true);
         applicantRepository.save(applicant);
 
