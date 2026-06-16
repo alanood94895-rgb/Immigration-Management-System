@@ -1,6 +1,8 @@
 package com.example.tra.Controllers;
 
 import com.example.tra.Entities.Interview;
+import com.example.tra.Services.InterviewService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
