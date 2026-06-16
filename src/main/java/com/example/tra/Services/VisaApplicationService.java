@@ -1,5 +1,6 @@
 package com.example.tra.Services;
 
+import com.example.tra.Entities.ImmigrationCenter;
 import com.example.tra.Entities.ImmigrationOfficer;
 import com.example.tra.Repositories.CenterRepository;
 import com.example.tra.Repositories.OfficerRepository;
