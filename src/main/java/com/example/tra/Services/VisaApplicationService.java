@@ -47,7 +47,6 @@ public class VisaApplicationService {
         return visaApplicationRepository.save(visa);
     }
 
-    // 2. Assign Officer
     public VisaApplication assignOfficer(Long visaId, Long officerId) {
 
         VisaApplication visa = visaApplicationRepository.findById(visaId)
