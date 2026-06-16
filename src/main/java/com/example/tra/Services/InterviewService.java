@@ -19,7 +19,7 @@ public class InterviewService {
     @Autowired
     OfficerRepository officerRepository;
 
-    // Schedule Interview
+
     public Interview scheduleInterview(Long applicantId,
                                        Long officerId,
                                        String date) {
