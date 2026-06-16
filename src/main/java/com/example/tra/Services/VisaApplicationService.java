@@ -2,8 +2,10 @@ package com.example.tra.Services;
 
 import com.example.tra.Entities.ImmigrationCenter;
 import com.example.tra.Entities.ImmigrationOfficer;
+import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.CenterRepository;
 import com.example.tra.Repositories.OfficerRepository;
+import com.example.tra.Repositories.VisaApplicationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,63 +14,77 @@ import java.util.List;
 
 @Service
 public class VisaApplicationService {
+
+    @Autowired
+    VisaApplicationRepository visaApplicationRepository;
+
+    @Autowired
+    ApplicantRepository applicantRepository;
+
     @Autowired
     OfficerRepository officerRepository;
 
-    @Autowired
-    CenterRepository centerRepository;
+    // 1. Submit Application
+    public VisaApplication submitApplication(Long applicantId,
+                                             String visaType) {
 
-    public ImmigrationOfficer promoteOfficer(Long officerId,
-                                             String newRank,
-                                             int newClearanceLevel) {
+        Applicant applicant = applicantRepository.findById(applicantId)
+                .orElseThrow(() -> new RuntimeException("Applicant Not Found"));
 
-        ImmigrationOfficer officer = officerRepository.findById(officerId)
-                .orElseThrow(() -> new RuntimeException("Officer not found"));
+        VisaApplication visa = new VisaApplication();
 
-        if (newClearanceLevel < 1 || newClearanceLevel > 5) {
-            throw new RuntimeException("Clearance level must be between 1 and 5");
+        visa.setApplicant(applicant);
+        visa.setVisaType(visaType);
+
+        if (Boolean.TRUE.equals(applicant.getCriminalRecord())) {
+            visa.setStatus("REJECTED");
+            visa.setOfficerNotes("Auto-rejected due to criminal flag.");
+        } else {
+            visa.setStatus("PENDING");
         }
 
-        officer.setOfficerRank(newRank);
-        officer.setClearanceLevel(newClearanceLevel);
-
-        return officerRepository.save(officer);
+        return visaApplicationRepository.save(visa);
     }
 
-    public ImmigrationOfficer transferOfficer(Long officerId,
-                                              Long newCenterId) {
+    // 2. Assign Officer
+    public VisaApplication assignOfficer(Long visaId, Long officerId) {
+
+        VisaApplication visa = visaApplicationRepository.findById(visaId)
+                .orElseThrow(() -> new RuntimeException("Visa Not Found"));
 
         ImmigrationOfficer officer = officerRepository.findById(officerId)
-                .orElseThrow(() -> new RuntimeException("Officer not found"));
+                .orElseThrow(() -> new RuntimeException("Officer Not Found"));
 
-        ImmigrationCenter center = centerRepository.findById(newCenterId)
-                .orElseThrow(() -> new RuntimeException("Center not found"));
+        if (visa.getVisaType().equalsIgnoreCase("Asylum")) {
 
-        officer.setCenter(center);
-
-        return officerRepository.save(officer);
-    }
-
-    public List<ImmigrationOfficer> findOfficersByRank(String rank) {
-        return officerRepository.findByOfficerRank(rank);
-    }
-
-    public List<ImmigrationOfficer> findOfficersByRank(String rank,
-                                                       int minimumClearanceLevel) {
-
-        List<ImmigrationOfficer> officers =
-                officerRepository.findByOfficerRank(rank);
-
-        List<ImmigrationOfficer> result = new ArrayList<>();
-
-        for (ImmigrationOfficer officer : officers) {
-
-            if (officer.getClearanceLevel() >= minimumClearanceLevel) {
-                result.add(officer);
+            if (officer.getClearanceLevel() < 4) {
+                throw new RuntimeException(
+                        "Asylum applications require clearance level 4 or 5");
             }
         }
 
-        return result;
+        visa.setHandlingOfficer(officer);
+
+        return visaApplicationRepository.save(visa);
+    }
+
+    // 3. Process Visa
+    public VisaApplication processVisa(Long visaId,
+                                       String newStatus,
+                                       String notes) {
+
+        VisaApplication visa = visaApplicationRepository.findById(visaId)
+                .orElseThrow(() -> new RuntimeException("Visa Not Found"));
+
+        if (!newStatus.equalsIgnoreCase("APPROVED") &&
+                !newStatus.equalsIgnoreCase("REJECTED")) {
+
+            throw new RuntimeException("Status must be APPROVED or REJECTED");
+        }
+
+        visa.setStatus(newStatus);
+        visa.setOfficerNotes(notes);
+
+        return visaApplicationRepository.save(visa);
     }
 }
-
