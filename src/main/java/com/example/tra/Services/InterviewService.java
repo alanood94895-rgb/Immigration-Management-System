@@ -1,12 +1,15 @@
 package com.example.tra.Services;
 
 import com.example.tra.Entities.Applicant;
+import com.example.tra.Entities.ImmigrationOfficer;
 import com.example.tra.Entities.Interview;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.InterviewRepository;
 import com.example.tra.Repositories.OfficerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class InterviewService {
