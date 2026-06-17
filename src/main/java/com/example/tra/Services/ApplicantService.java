@@ -19,13 +19,13 @@ public class ApplicantService {
 
     public Applicant saveApplicant(Applicant applicant) {
         if (applicant.getPassportNumber() == null || applicant.getPassportNumber().isEmpty()) {
-            throw Exceptions.badRequest("Error:Passport number is required");
+            throw Exception.badRequest("Error:Passport number is required");
         }
         if (applicant.getFirstName() == null || applicant.getFirstName().isEmpty()) {
-            throw Exceptions.badRequest("Error:first name is required");
+            throw Exception.badRequest("Error:first name is required");
         }
         if (applicant.getLastName() == null || applicant.getLastName().isEmpty()) {
-            throw Exceptions.badRequest("Error:Last name is required");
+            throw Exception.badRequest("Error:Last name is required");
         }
         return applicantRepository.save(applicant);
     }
