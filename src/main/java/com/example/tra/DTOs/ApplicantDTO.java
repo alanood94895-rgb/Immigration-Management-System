@@ -15,7 +15,7 @@ public class ApplicantDTO {
     private String lastName;
     private String nationality;
     private String passportNumber;
-    private boolean criminalRecorde;
+    private boolean criminalRecord;
 
     public static ApplicantDTO convertToDTO(Applicant applicant){
         ApplicantDTO dto = new ApplicantDTO();
@@ -25,7 +25,8 @@ public class ApplicantDTO {
         dto.setLastName(applicant.getLastName());
         dto.setNationality(applicant.getNationality());
         dto.setPassportNumber(applicant.getPassportNumber());
-        dto.setCriminalRecorde(applicant.isCriminalRecorde());
+        dto.setCriminalRecord(applicant.getCriminalRecord());
+
         return dto;
     }
     public static List<ApplicantDTO> convertToDTO(List<Applicant> applicants){
