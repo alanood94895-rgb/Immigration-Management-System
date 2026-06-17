@@ -1,7 +1,6 @@
 package com.example.tra.Controllers;
 
 import com.example.tra.DTOs.VisaApplicationDTO;
-import com.example.tra.Entities.VisaApplication;
 import com.example.tra.Services.VisaApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("visas")
-public class VisaController {
+public class VisaApplicationController {
 
     @Autowired
     VisaApplicationService visaApplicationService;
