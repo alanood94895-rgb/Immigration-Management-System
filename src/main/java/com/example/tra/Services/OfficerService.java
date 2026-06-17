@@ -44,7 +44,6 @@ public class OfficerService {
         return officerRepository.save(officer);
     }
 
-    //Find Officer by rank
     public List<ImmigrationOfficer> findOfficerByRank(String rank) {
         return officerRepository.findByOfficerRank(rank);
     }
