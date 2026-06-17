@@ -53,7 +53,7 @@ public class ApplicantService {
 
     public Applicant flagCriminalRecord(Long applicantId){
         Applicant applicant = applicantRepository.findById(applicantId)
-                .orElseThrow(() -> Exceptions.notFound("Applicant not found with id: " + applicantId));
+                .orElseThrow(() -> Exception.notFound("Applicant not found with id: " + applicantId));
 
         applicant.setCriminalRecorde(true);
         applicantRepository.save(applicant);
