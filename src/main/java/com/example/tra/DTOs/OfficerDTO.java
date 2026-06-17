@@ -1,5 +1,6 @@
 package com.example.tra.DTOs;
 
+import com.example.tra.Entities.ImmigrationOfficer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,4 +13,16 @@ public class OfficerDTO {
     private String badgeNumber;
     private String officerRank;
     private boolean active;
+
+    public static OfficerDTO convertToDTO(ImmigrationOfficer officer) {
+        OfficerDTO dto = new OfficerDTO();
+        dto.setId(officer.getId());
+        dto.setFirstName(officer.getFirstName());
+        dto.setLastName(officer.getLastName());
+        dto.setBadgeNumber(officer.getBadgeNumber());
+        dto.setOfficerRank(officer.getOfficerRank());
+        dto.setActive(officer.isActive());
+        return dto;
+    }
+
 }
