@@ -4,6 +4,9 @@ import com.example.tra.Entities.ImmigrationOfficer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class OfficerDTO {
@@ -24,5 +27,12 @@ public class OfficerDTO {
         dto.setActive(officer.isActive());
         return dto;
     }
+    public static List<OfficerDTO> convertToDTO(List<ImmigrationOfficer> officers) {
+        List<OfficerDTO> dtos = new ArrayList<>();
+        for (ImmigrationOfficer officer : officers) {
+            dtos.add(convertToDTO(officer));
+        }
+        return dtos;
 
+    }
 }
