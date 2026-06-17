@@ -11,33 +11,30 @@ import java.util.List;
 @RequestMapping("/api/interviews")
 public class InterviewController {
     @Autowired
-    private InterviewService interviewService;
+    InterviewService interviewService;
 
     @PostMapping("/schedule/{applicantId}/{officerId}")
-    public Interview schedule(
-            @PathVariable Long applicantId,
-            @PathVariable Long officerId,
-            @RequestParam String date) {
+    public ResponseEntity<InterviewDTO> scheduleInterview(@PathVariable Long applicantId, @PathVariable Long officerId, @RequestParam String date){
 
-        return interviewService.scheduleInterview(applicantId, officerId, date);
+        return ResponseEntity.ok(InterviewDTO.convertToDTO(interviewService.scheduleInterview(applicantId, officerId, date)));
     }
 
+
     @PutMapping("/{id}/complete")
-    public Interview complete(@PathVariable Long id) {
-        return interviewService.completeInterview(id);
+    public ResponseEntity<InterviewDTO> completeInterview(@PathVariable Long id){
+        return ResponseEntity.ok(InterviewDTO.convertToDTO(interviewService.completeInterview(id)));
     }
 
     @PutMapping("/{id}/cancel")
-    public String cancel(@PathVariable Long id) {
-        return "Interview cancelled (not implemented in entity yet)";
+    public ResponseEntity<InterviewDTO> cancelInterview(@PathVariable Long id){
+        return ResponseEntity.ok(InterviewDTO.convertToDTO(interviewService.cancelInterview(id)));
     }
 
     @GetMapping("/officer/{officerId}/date/{date}")
-    public List<Interview> getSchedule(
-            @PathVariable Long officerId,
-            @PathVariable String date) {
+    public ResponseEntity<List<InterviewDTO>> getOfficerSchedule(@PathVariable Long officerId, @PathVariable String date){
 
-        return interviewService.getByOfficerAndDate(officerId, date);
+        return ResponseEntity.ok(InterviewDTO.convertToDTO(interviewService.getOfficerSchedule(officerId,date)));
     }
-}
 
+
+}
