@@ -1,50 +1,46 @@
 package com.example.tra.Controllers;
 
+import com.example.tra.DTOs.ApplicantDTO;
 import com.example.tra.Entities.Applicant;
 import com.example.tra.Entities.AsylumSeeker;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Services.ApplicantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/applicants")
+@RequestMapping("applicant")
 public class ApplicantController {
 
     @Autowired
-    private ApplicantRepository applicantRepository;
+    ApplicantService applicantService;
 
-    @Autowired
-    private ApplicantService applicantService;
 
     @PostMapping
-    public Applicant registerApplicant(@RequestBody Applicant applicant) {
-        return applicantRepository.save(applicant);
+    public ResponseEntity<ApplicantDTO> registerApplicant(@RequestBody Applicant applicant){
+        return ResponseEntity.ok(ApplicantDTO.convertToDTO(applicantService.saveApplicant(applicant)));
     }
 
     @PostMapping("/asylum")
-    public AsylumSeeker registerAsylum(@RequestBody AsylumSeeker seeker) {
-        return applicantRepository.save(seeker);
+    public ResponseEntity<ApplicantDTO> registerAsylumSeeker(@RequestBody AsylumSeeker asylumSeeker) {
+        return ResponseEntity.ok(ApplicantDTO.convertToDTO(applicantService.saveApplicant(asylumSeeker)));
     }
 
     @GetMapping
-    public List<Applicant> getAllApplicants() {
-        return applicantRepository.findAll();
+    public ResponseEntity<List<ApplicantDTO>> getAllApplicants(){
+        return ResponseEntity.ok(ApplicantDTO.convertToDTO(applicantService.getAllApplicant()));
     }
 
     @GetMapping("/search")
-    public List<Applicant> findByNationality(@RequestParam String nationality) {
-        return applicantRepository.findByNationality(nationality);
+    public ResponseEntity<List<ApplicantDTO>> findByNationality(@RequestParam String nationality){
+        return ResponseEntity.ok(ApplicantDTO.convertToDTO(applicantService.findByNationality(nationality)));
     }
 
     @PutMapping("/{id}/flag")
-    public Applicant flagCriminalRecord(@PathVariable Long id) {
-        Applicant applicant = applicantRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Applicant not found"));
-
-        applicant.setCriminalRecord(true);
-        return applicantRepository.save(applicant);
+    public ResponseEntity<ApplicantDTO> flagCriminalRecord(@PathVariable Long id){
+        return ResponseEntity.ok(ApplicantDTO.convertToDTO(applicantService.flagCriminalRecord(id)));
     }
 }
