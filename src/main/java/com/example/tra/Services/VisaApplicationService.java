@@ -26,75 +26,59 @@ public class VisaApplicationService {
     @Autowired
     OfficerRepository officerRepository;
 
-    public VisaApplication submitApplication(Long applicantId,
-                                             String visaType) {
-
+    public VisaApplication submitApplication(Long applicantId, String visaType){
         Applicant applicant = applicantRepository.findById(applicantId)
-                .orElseThrow(() -> new RuntimeException("Applicant Not Found"));
+                .orElseThrow(() -> Exceptions.notFound("Applicant not found with id: " + applicantId));
 
         VisaApplication visa = new VisaApplication();
-
         visa.setApplicant(applicant);
         visa.setVisaType(visaType);
 
-        if (Boolean.TRUE.equals(applicant.getCriminalRecord())) {
+        if (applicant.isCriminalRecorde()){
             visa.setStatus("REJECTED");
-            visa.setOfficerNotes("Auto-rejected due to criminal flag.");
-        } else {
+            visa.setVisaType("Auto-rejected due to criminal flag");
+        }else {
             visa.setStatus("PENDING");
         }
-
         return visaApplicationRepository.save(visa);
     }
 
-    public VisaApplication assignOfficer(Long visaId, Long officerId) {
-
+    public VisaApplication assignOfficer(Long visaId, Long officerId){
         VisaApplication visa = visaApplicationRepository.findById(visaId)
-                .orElseThrow(() -> new RuntimeException("Visa Not Found"));
+                .orElseThrow(() -> Exceptions.notFound("Visa application not found with id: " + visaId));
 
         ImmigrationOfficer officer = officerRepository.findById(officerId)
-                .orElseThrow(() -> new RuntimeException("Officer Not Found"));
+                .orElseThrow(() -> Exceptions.notFound("Officer not found with id: " + officerId));
 
-        if (visa.getVisaType().equalsIgnoreCase("Asylum")) {
-
-            if (officer.getClearanceLevel() < 4) {
-                throw new RuntimeException(
-                        "Asylum applications require clearance level 4 or 5");
+        if (visa.getVisaType().equals("Asylum")){
+            if (officer.getClearanceLevel() != 4 && officer.getClearanceLevel() != 5){
+                throw Exceptions.badRequest("Asylum visas require officer with clearance level 4 or 5");
             }
         }
-
         visa.setHandlingOfficer(officer);
-
         return visaApplicationRepository.save(visa);
     }
 
-    public VisaApplication processVisa(Long visaId, String newStatus, String notes) {
-
+    //Process Visa
+    public VisaApplication processVisa(Long visaId, String newStatus, String notes){
         VisaApplication visa = visaApplicationRepository.findById(visaId)
-                .orElseThrow(() -> new RuntimeException("Visa Not Found"));
+                .orElseThrow(() -> Exceptions.notFound("Visa application not found with id: " + visaId));
 
-        if (!newStatus.equalsIgnoreCase("APPROVED") &&
-                !newStatus.equalsIgnoreCase("REJECTED")) {
-
-            throw new RuntimeException("Status must be APPROVED or REJECTED");
+        if (!newStatus.equals("APPROVED") && !newStatus.equals("REJECTED")){
+            throw Exceptions.badRequest("Status must be APPROVED or REJECTED");
         }
-
         visa.setStatus(newStatus);
         visa.setOfficerNotes(notes);
-
         return visaApplicationRepository.save(visa);
     }
-    public List<VisaApplication> getByApplicant(Long applicantId) {
-        return visaApplicationRepository.findAll()
-                .stream()
-                .filter(v -> v.getApplicant().getId().equals(applicantId))
-                .toList();
+
+    //Get all visas for a specific applicant
+    public List<VisaApplication> getVisaByApplicant(Long applicantId){
+        return visaApplicationRepository.findByApplicantId(applicantId);
     }
 
-    public List<VisaApplication> getByStatus(String status) {
-        return visaApplicationRepository.findAll()
-                .stream()
-                .filter(v -> v.getStatus().equalsIgnoreCase(status))
-                .toList();
+    //Get visa by status
+    public List<VisaApplication> gitVisaByStatus(String status){
+        return visaApplicationRepository.findByStatus(status);
     }
 }
