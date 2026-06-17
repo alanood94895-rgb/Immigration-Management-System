@@ -1,8 +1,10 @@
 package com.example.tra.Controllers;
 
+import com.example.tra.DTOs.VisaApplicationDTO;
 import com.example.tra.Entities.VisaApplication;
 import com.example.tra.Services.VisaApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
