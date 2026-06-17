@@ -4,6 +4,9 @@ import com.example.tra.Entities.Applicant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class ApplicantDTO {
@@ -24,6 +27,13 @@ public class ApplicantDTO {
         dto.setPassportNumber(applicant.getPassportNumber());
         dto.setCriminalRecorde(applicant.isCriminalRecorde());
         return dto;
+    }
+    public static List<ApplicantDTO> convertToDTO(List<Applicant> applicants){
+        List<ApplicantDTO> dtos = new ArrayList<>();
+        for (Applicant applicant : applicants){
+            dtos.add(convertToDTO(applicant));
+        }
+        return dtos;
     }
 
 
