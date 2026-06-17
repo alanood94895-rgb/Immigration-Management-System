@@ -30,7 +30,7 @@ public class ApplicantService {
         return applicantRepository.save(applicant);
     }
 
-    //Save From individual Strings
+
     public Applicant saveApplicant(String firstName, String lastName, String passportNumber, String nationality) {
 
         if (passportNumber == null || passportNumber.isEmpty()){
