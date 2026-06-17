@@ -1,5 +1,8 @@
 package com.example.tra.Services;
 
+import com.example.tra.Entities.ImmigrationCenter;
+import com.example.tra.Repositories.CenterRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
