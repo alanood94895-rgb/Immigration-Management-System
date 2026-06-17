@@ -6,4 +6,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class OfficerDTO {
+    private Long id;
+    private String firstName;
+    private String lastName;
+    private String badgeNumber;
+    private String officerRank;
+    private boolean active;
 }
