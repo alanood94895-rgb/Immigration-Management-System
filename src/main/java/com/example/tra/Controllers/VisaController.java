@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/visas")
+@RequestMapping("visas")
 public class VisaController {
     @Autowired
     private VisaApplicationService visaService;
