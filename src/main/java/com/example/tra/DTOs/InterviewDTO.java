@@ -5,6 +5,9 @@ import com.example.tra.Entities.Interview;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class InterviewDTO {
@@ -24,5 +27,13 @@ public class InterviewDTO {
         dto.setApplicantId(interview.getApplicant().getId());
         dto.setOfficerId(interview.getOfficer().getId());
         return dto;
+    }
+
+    public static List<InterviewDTO> convertToDTO(List<Interview> interviews) {
+        List<InterviewDTO> dtos = new ArrayList<>();
+        for (Interview interview : interviews) {
+            dtos.add(convertToDTO(interview));
+        }
+        return dtos;
     }
 }
