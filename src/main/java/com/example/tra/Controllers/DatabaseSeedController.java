@@ -1,9 +1,6 @@
 package com.example.tra.Controllers;
 
-import com.example.tra.Entities.Applicant;
-import com.example.tra.Entities.BorderControlOfficer;
-import com.example.tra.Entities.ImmigrationCenter;
-import com.example.tra.Entities.ImmigrationOfficer;
+import com.example.tra.Entities.*;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.CenterRepository;
 import com.example.tra.Repositories.OfficerRepository;
