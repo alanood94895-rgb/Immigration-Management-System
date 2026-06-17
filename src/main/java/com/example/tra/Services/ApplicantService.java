@@ -17,7 +17,6 @@ public class ApplicantService {
     @Autowired
     InterviewRepository interviewRepository;
 
-    //Save full Applicant Object
     public Applicant saveApplicant(Applicant applicant) {
         if (applicant.getPassportNumber() == null || applicant.getPassportNumber().isEmpty()) {
             throw Exceptions.badRequest("Error:Passport number is required");
