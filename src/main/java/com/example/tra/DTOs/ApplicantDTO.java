@@ -1,5 +1,6 @@
 package com.example.tra.DTOs;
 
+import com.example.tra.Entities.Applicant;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,4 +14,8 @@ public class ApplicantDTO {
     private String passportNumber;
     private boolean criminalRecorde;
 
-}
+    public static ApplicantDTO convertToDTO(Applicant applicant){
+        ApplicantDTO dto = new ApplicantDTO();
+
+
+    }
