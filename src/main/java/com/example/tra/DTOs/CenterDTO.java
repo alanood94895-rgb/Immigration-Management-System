@@ -4,6 +4,9 @@ import com.example.tra.Entities.ImmigrationCenter;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 public class CenterDTO {
@@ -22,5 +25,11 @@ public class CenterDTO {
         dto.setDailyCapacity(center.getDailyCapacity());
         return dto;
     }
-
+    public static List<CenterDTO> convertToDTO(List<ImmigrationCenter> centers) {
+        List<CenterDTO> dtos = new ArrayList<>();
+        for (ImmigrationCenter center : centers) {
+            dtos.add(convertToDTO(center));
+        }
+        return dtos;
+    }
 }
