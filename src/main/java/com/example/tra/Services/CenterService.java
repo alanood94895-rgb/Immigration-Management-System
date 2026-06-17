@@ -4,4 +4,29 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class CenterService {
+    @Autowired
+    CenterRepository centerRepository;
+
+
+    public ImmigrationCenter createCenter(ImmigrationCenter center){
+        if (center.getName() == null || center.getName().isBlank()){
+            throw Exceptions.badRequest("Center name is required");
+        }
+        if (center.getLocationCountry() == null || center.getLocationCountry().isBlank()){
+            throw Exceptions.badRequest("Location country is required");
+        }
+        if (center.getType() == null || center.getType().isBlank()){
+            throw Exceptions.badRequest("Center Type is required");
+        }
+        if (center.getDailyCapacity() <= 0){
+            throw Exceptions.badRequest("Daily Capacity must be grater than 0");
+        }
+        return centerRepository.save(center);
+    }
+
+    public ImmigrationCenter getCenterByID(Long id){
+        return centerRepository.findById(id)
+                .orElseThrow(() -> Exceptions.notFound("Center not found with id: " + id));
+    }
+
 }
