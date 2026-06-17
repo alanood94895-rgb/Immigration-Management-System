@@ -2,6 +2,7 @@ package com.example.tra.Services;
 
 import com.example.tra.Entities.ImmigrationCenter;
 import com.example.tra.Entities.ImmigrationOfficer;
+import com.example.tra.Exceptions.Exceptions;
 import com.example.tra.Repositories.CenterRepository;
 import com.example.tra.Repositories.OfficerRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class OfficerService {
     CenterRepository centerRepository;
 
     public ImmigrationOfficer promoteOfficer(Long officerId, String newOfficerRank, int newClearanceLevel1) {
-        if (newClearanceLevel1 < 1 || newClearanceLevel1 > 5) { //Access Level of the officer
+        if (newClearanceLevel1 < 1 || newClearanceLevel1 > 5) {
             throw Exceptions.badRequest("Clearance Level must be between 1 and 5");
         }
         ImmigrationOfficer officer = officerRepository.findById(officerId)

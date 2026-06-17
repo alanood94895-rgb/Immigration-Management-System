@@ -4,6 +4,7 @@ import com.example.tra.Entities.Applicant;
 import com.example.tra.Entities.ImmigrationCenter;
 import com.example.tra.Entities.ImmigrationOfficer;
 import com.example.tra.Entities.VisaApplication;
+import com.example.tra.Exceptions.Exceptions;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.CenterRepository;
 import com.example.tra.Repositories.OfficerRepository;
@@ -34,7 +35,7 @@ public class VisaApplicationService {
         visa.setApplicant(applicant);
         visa.setVisaType(visaType);
 
-        if (applicant.isCriminalRecorde()){
+        if (applicant.getCriminalRecord()){
             visa.setStatus("REJECTED");
             visa.setVisaType("Auto-rejected due to criminal flag");
         }else {

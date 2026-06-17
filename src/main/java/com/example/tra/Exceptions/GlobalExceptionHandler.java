@@ -1,6 +1,5 @@
 package com.example.tra.Exceptions;
 
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.SystemException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +14,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(SystemException.class)
     public ResponseEntity<ErrorResponse> handleResourceNotFound(SystemException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
-                HttpStatus.NOT_FOUND ,
+                HttpStatus.NOT_FOUND,
                 HttpStatus.NOT_FOUND.value(),
                 "Hello",
                 ex.getMessage(),
@@ -24,8 +23,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleExceptions(Exception ex, WebRequest request) {
+    @ExceptionHandler(Exceptions.class)
+    public ResponseEntity<ErrorResponse> handleExceptions(Exceptions ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
                 ex.getStatus(),
                 ex.getStatus().value(),
@@ -35,6 +34,7 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(ex.getStatus()).body(errorResponse);
     }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ErrorResponse> handleRuntimeException(RuntimeException ex, WebRequest request) {
         ErrorResponse errorResponse = new ErrorResponse(
@@ -58,5 +58,4 @@ public class GlobalExceptionHandler {
         );
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.tra.Services;
 
 import com.example.tra.Entities.Applicant;
 import com.example.tra.Entities.Interview;
+import com.example.tra.Exceptions.Exceptions;
 import com.example.tra.Repositories.ApplicantRepository;
 import com.example.tra.Repositories.InterviewRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +20,13 @@ public class ApplicantService {
 
     public Applicant saveApplicant(Applicant applicant) {
         if (applicant.getPassportNumber() == null || applicant.getPassportNumber().isEmpty()) {
-            throw Exception.badRequest("Error:Passport number is required");
+            throw Exceptions.badRequest("Error:Passport number is required");
         }
         if (applicant.getFirstName() == null || applicant.getFirstName().isEmpty()) {
-            throw Exception.badRequest("Error:first name is required");
+            throw Exceptions.badRequest("Error:first name is required");
         }
         if (applicant.getLastName() == null || applicant.getLastName().isEmpty()) {
-            throw Exception.badRequest("Error:Last name is required");
+            throw Exceptions.badRequest("Error:Last name is required");
         }
         return applicantRepository.save(applicant);
     }
@@ -34,13 +35,13 @@ public class ApplicantService {
     public Applicant saveApplicant(String firstName, String lastName, String passportNumber, String nationality) {
 
         if (passportNumber == null || passportNumber.isEmpty()){
-            throw Exception.badRequest("Error:Passport number is required");
+            throw Exceptions.badRequest("Error:Passport number is required");
         }
         if (firstName == null || lastName.isEmpty()){
-            throw Exception.badRequest("Error:First name is required");
+            throw Exceptions.badRequest("Error:First name is required");
         }
         if (lastName == null || lastName.isEmpty()){
-            throw Exception.badRequest("Error:Last Name is required");
+            throw Exceptions.badRequest("Error:Last Name is required");
         }
 
         Applicant applicant = new Applicant();
@@ -53,9 +54,9 @@ public class ApplicantService {
 
     public Applicant flagCriminalRecord(Long applicantId){
         Applicant applicant = applicantRepository.findById(applicantId)
-                .orElseThrow(() -> Exception.notFound("Applicant not found with id: " + applicantId));
+                .orElseThrow(() -> Exceptions.notFound("Applicant not found with id: " + applicantId));
 
-        applicant.setCriminalRecorde(true);
+        applicant.getCriminalRecord();
         applicantRepository.save(applicant);
 
         List<Interview> scheduledInterviews = interviewRepository.findByApplicantIdAndStatus(applicantId, "SCHEDULED");
