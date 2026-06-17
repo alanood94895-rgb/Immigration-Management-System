@@ -35,6 +35,6 @@ public class ApplicantDTO {
         }
         return dtos;
     }
-
-
 }
+
+//jj
